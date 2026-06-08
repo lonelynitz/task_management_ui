@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://task-management-server-lyart-chi.vercel.app/api' || '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -70,7 +70,7 @@ api.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          'https://task-management-server-lyart-chi.vercel.app/auth/refresh',
+          `${import.meta.env.VITE_API_URL || '/api'}/auth/refresh`,
           { refreshToken }
         );
 
