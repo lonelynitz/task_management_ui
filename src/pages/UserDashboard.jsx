@@ -68,7 +68,7 @@ export default function UserDashboard() {
 
       {/* Toast */}
       {toast.message && (
-        <div className={`fixed top-6 right-6 px-5 py-3.5 rounded-xl text-sm font-medium z-[2000] animate-[slideIn_0.3s_ease] ${
+        <div className={`fixed top-6 left-1/2 -translate-x-1/2 px-5 py-3.5 rounded-xl text-sm font-medium z-[2000] animate-[slideIn_0.3s_ease] shadow-[0_8px_30px_rgba(0,0,0,0.3)] ${
           toast.type === 'error'
             ? 'bg-red-500/15 border border-red-500/30 text-red-300'
             : 'bg-green-500/15 border border-green-500/30 text-green-300'
@@ -170,20 +170,20 @@ export default function UserDashboard() {
                     {/* Status change actions */}
                     <div className="flex shrink-0">
                       {task.status === 'Pending' && (
-                        <button className="flex items-center gap-1.5 px-4 py-2 border-none rounded-lg text-[13px] font-semibold cursor-pointer transition-all bg-accent-500/15 text-purple-400 hover:bg-accent-500/25" onClick={() => updateStatusMutation.mutate({ id: task.id, status: 'In Progress' })}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        <button className="flex items-center gap-1.5 px-4 py-2 border-none rounded-lg text-[13px] font-semibold cursor-pointer transition-all bg-accent-500/15 text-purple-400 hover:bg-accent-500/25 disabled:opacity-50 disabled:cursor-not-allowed" disabled={updateStatusMutation.isPending} onClick={() => updateStatusMutation.mutate({ id: task.id, status: 'In Progress' })}>
+                          {updateStatusMutation.isPending ? <div className="w-4 h-4 border-2 border-purple-400/30 border-t-purple-400 rounded-full" style={{ animation: 'spin 0.6s linear infinite' }} /> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>}
                           Start Task
                         </button>
                       )}
                       {task.status === 'In Progress' && (
-                        <button className="flex items-center gap-1.5 px-4 py-2 border-none rounded-lg text-[13px] font-semibold cursor-pointer transition-all bg-green-500/15 text-green-400 hover:bg-green-500/25" onClick={() => updateStatusMutation.mutate({ id: task.id, status: 'Completed' })}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <button className="flex items-center gap-1.5 px-4 py-2 border-none rounded-lg text-[13px] font-semibold cursor-pointer transition-all bg-green-500/15 text-green-400 hover:bg-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed" disabled={updateStatusMutation.isPending} onClick={() => updateStatusMutation.mutate({ id: task.id, status: 'Completed' })}>
+                          {updateStatusMutation.isPending ? <div className="w-4 h-4 border-2 border-green-400/30 border-t-green-400 rounded-full" style={{ animation: 'spin 0.6s linear infinite' }} /> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>}
                           Complete
                         </button>
                       )}
                       {task.status === 'Completed' && (
-                        <button className="flex items-center gap-1.5 px-4 py-2 border-none rounded-lg text-[13px] font-semibold cursor-pointer transition-all bg-amber-500/15 text-amber-400 hover:bg-amber-500/25" onClick={() => updateStatusMutation.mutate({ id: task.id, status: 'Pending' })}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                        <button className="flex items-center gap-1.5 px-4 py-2 border-none rounded-lg text-[13px] font-semibold cursor-pointer transition-all bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 disabled:opacity-50 disabled:cursor-not-allowed" disabled={updateStatusMutation.isPending} onClick={() => updateStatusMutation.mutate({ id: task.id, status: 'Pending' })}>
+                          {updateStatusMutation.isPending ? <div className="w-4 h-4 border-2 border-amber-400/30 border-t-amber-400 rounded-full" style={{ animation: 'spin 0.6s linear infinite' }} /> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>}
                           Reopen
                         </button>
                       )}

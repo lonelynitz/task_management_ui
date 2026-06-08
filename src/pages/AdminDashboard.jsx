@@ -152,7 +152,7 @@ export default function AdminDashboard() {
 
       {/* Toast */}
       {toast.message && (
-        <div className={`fixed top-6 right-6 px-5 py-3.5 rounded-xl text-sm font-medium z-[2000] animate-[slideIn_0.3s_ease] ${
+        <div className={`fixed top-6 left-1/2 -translate-x-1/2 px-5 py-3.5 rounded-xl text-sm font-medium z-[2000] animate-[slideIn_0.3s_ease] shadow-[0_8px_30px_rgba(0,0,0,0.3)] ${
           toast.type === 'error'
             ? 'bg-red-500/15 border border-red-500/30 text-red-300'
             : 'bg-green-500/15 border border-green-500/30 text-green-300'
@@ -280,7 +280,7 @@ export default function AdminDashboard() {
                       <button className="w-9 h-9 rounded-lg border-none flex items-center justify-center cursor-pointer transition-all bg-primary-500/10 text-blue-400 hover:bg-primary-500/20" onClick={() => handleEditTask(task)} title="Edit task">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                       </button>
-                      <button className="w-9 h-9 rounded-lg border-none flex items-center justify-center cursor-pointer transition-all bg-red-500/10 text-red-300 hover:bg-red-500/20" onClick={() => { if (window.confirm('Are you sure you want to delete this task?')) deleteTaskMutation.mutate(task.id) }} title="Delete task">
+                      <button className="w-9 h-9 rounded-lg border-none flex items-center justify-center cursor-pointer transition-all bg-red-500/10 text-red-300 hover:bg-red-500/20 disabled:opacity-40" disabled={deleteTaskMutation.isPending} onClick={() => { if (window.confirm('Are you sure you want to delete this task?')) deleteTaskMutation.mutate(task.id) }} title="Delete task">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
                       </button>
                     </div>
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
                   </div>
                   {u.role !== 'admin' && (
                     <div className="flex justify-end mt-3 pt-3 border-t border-white/[0.08]">
-                      <button className="w-9 h-9 rounded-lg border-none flex items-center justify-center cursor-pointer transition-all bg-red-500/10 text-red-300 hover:bg-red-500/20" onClick={() => { if (window.confirm('Are you sure you want to delete this user?')) deleteUserMutation.mutate(u.id) }} title="Delete user">
+                      <button className="w-9 h-9 rounded-lg border-none flex items-center justify-center cursor-pointer transition-all bg-red-500/10 text-red-300 hover:bg-red-500/20 disabled:opacity-40" disabled={deleteUserMutation.isPending} onClick={() => { if (window.confirm('Are you sure you want to delete this user?')) deleteUserMutation.mutate(u.id) }} title="Delete user">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
                       </button>
                     </div>
@@ -375,7 +375,8 @@ export default function AdminDashboard() {
               </div>
               <div className="flex justify-end gap-2.5 mt-1">
                 <button type="button" className="px-5 py-2.5 bg-white/10 border border-white/15 rounded-xl text-slate-400 text-sm font-medium cursor-pointer transition-all hover:bg-white/15 hover:text-slate-200" onClick={() => setShowTaskModal(false)}>Cancel</button>
-                <button type="submit" className="px-5 py-2.5 bg-gradient-to-br from-primary-500 to-accent-500 border-none rounded-xl text-white text-sm font-semibold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(59,130,246,0.25)]">
+                <button type="submit" disabled={createTaskMutation.isPending || updateTaskMutation.isPending} className="px-5 py-2.5 bg-gradient-to-br from-primary-500 to-accent-500 border-none rounded-xl text-white text-sm font-semibold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(59,130,246,0.25)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none flex items-center gap-2">
+                  {(createTaskMutation.isPending || updateTaskMutation.isPending) && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" style={{ animation: 'spin 0.6s linear infinite' }} />}
                   {editingTask ? 'Update Task' : 'Create Task'}
                 </button>
               </div>
@@ -414,7 +415,10 @@ export default function AdminDashboard() {
               </div>
               <div className="flex justify-end gap-2.5 mt-1">
                 <button type="button" className="px-5 py-2.5 bg-white/10 border border-white/15 rounded-xl text-slate-400 text-sm font-medium cursor-pointer transition-all hover:bg-white/15 hover:text-slate-200" onClick={() => setShowUserModal(false)}>Cancel</button>
-                <button type="submit" className="px-5 py-2.5 bg-gradient-to-br from-primary-500 to-accent-500 border-none rounded-xl text-white text-sm font-semibold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(59,130,246,0.25)]">Create User</button>
+                <button type="submit" disabled={createUserMutation.isPending} className="px-5 py-2.5 bg-gradient-to-br from-primary-500 to-accent-500 border-none rounded-xl text-white text-sm font-semibold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(59,130,246,0.25)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none flex items-center gap-2">
+                  {createUserMutation.isPending && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full" style={{ animation: 'spin 0.6s linear infinite' }} />}
+                  Create User
+                </button>
               </div>
             </form>
           </div>
