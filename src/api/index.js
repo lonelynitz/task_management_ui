@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://task-management-server-lyart-chi.vercel.app' || '/api',
+  baseURL: 'https://task-management-server-lyart-chi.vercel.app/api' || '/api',
   headers: {
     'Content-Type': 'application/json',
   },
